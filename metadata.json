@@ -1,6 +1,0 @@
-{
-  "name": "POS Formulator",
-  "description": "An interactive POS calculation sequence builder and formula visualizer that reveals how subtotals, discounts, service charges, taxes, and vouchers compound dynamically.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
