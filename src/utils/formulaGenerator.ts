@@ -111,7 +111,13 @@ function getInclusiveDefs(mod: Set<string>): StepDefinition[] {
       mod.has('surchargeInclDiscount') ? '{AdjustedSubtotal}' : '{Subtotal}'
     ]),
     d('Surcharge', 'Surcharge', mod.has('surcharge'), ['{SurchargeBase} × Surcharge Rate']),
-    d('TaxInclusivePortion', 'Tax Inclusive Portion', true, ['{Subtotal} − {SubtotalBeforeTax}']),
+    d('SurchargeTaxPortion', 'Surcharge Tax Portion', mod.has('surcharge'), [
+      '{Surcharge} − ({Surcharge} ÷ (1 + Tax Rate))'
+    ]),
+    d('TaxInclusivePortion', 'Tax Inclusive Portion', true, [
+      '{Subtotal} − {SubtotalBeforeTax}',
+      mod.has('surcharge') && '+ {SurchargeTaxPortion}'
+    ]),
     d('ServiceChargeBase', 'Service Charge Base', mod.has('serviceCharge'), [
       `${scBaseInner} × Service Charge Rate`
     ]),
@@ -219,7 +225,6 @@ function getExclusiveDefs(mod: Set<string>): StepDefinition[] {
     d('TaxExclusive', 'Tax Exclusive', true, [
       '( {AdjustedSubtotal}',
       mod.has('surcharge') && '+ {Surcharge}',
-      mod.has('serviceCharge') && '+ {TotalServiceCharge}',
       mod.has('takeAwayItem') && '+ Σ(Take Away Fees Per Item × Qty)',
       ') × Tax Rate'
     ]),
